@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qh.db.dao.mapper.PayLogMapper" >
+  <resultMap id="BaseResultMap" type="com.qh.entity.PayLog" >
+    <result column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+    <result column="pay_type" property="payType" jdbcType="VARCHAR" />
+    <result column="fee" property="fee" jdbcType="DECIMAL" />
+    <result column="pay_number" property="payNumber" jdbcType="VARCHAR" />
+    <result column="out_trade_no" property="outTradeNo" jdbcType="VARCHAR" />
+    <result column="out_trade_refund_no" property="outTradeRefundNo" jdbcType="VARCHAR" />
+    <result column="mch_id" property="mchId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="trade_time" property="tradeTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <insert id="insert" parameterType="com.qh.entity.PayLog" >
+    insert into qh_paylog (trade_no, pay_type, fee, 
+      pay_number, out_trade_no, out_trade_refund_no, 
+      mch_id, create_time, trade_time
+      )
+    values (#{tradeNo,jdbcType=VARCHAR}, #{payType,jdbcType=VARCHAR}, #{fee,jdbcType=DECIMAL}, 
+      #{payNumber,jdbcType=VARCHAR}, #{outTradeNo,jdbcType=VARCHAR}, #{outTradeRefundNo,jdbcType=VARCHAR}, 
+      #{mchId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{tradeTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qh.entity.PayLog" >
+    insert into qh_paylog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tradeNo != null" >
+        trade_no,
+      </if>
+      <if test="payType != null" >
+        pay_type,
+      </if>
+      <if test="fee != null" >
+        fee,
+      </if>
+      <if test="payNumber != null" >
+        pay_number,
+      </if>
+      <if test="outTradeNo != null" >
+        out_trade_no,
+      </if>
+      <if test="outTradeRefundNo != null" >
+        out_trade_refund_no,
+      </if>
+      <if test="mchId != null" >
+        mch_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="tradeTime != null" >
+        trade_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tradeNo != null" >
+        #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="fee != null" >
+        #{fee,jdbcType=DECIMAL},
+      </if>
+      <if test="payNumber != null" >
+        #{payNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="outTradeNo != null" >
+        #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="outTradeRefundNo != null" >
+        #{outTradeRefundNo,jdbcType=VARCHAR},
+      </if>
+      <if test="mchId != null" >
+        #{mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradeTime != null" >
+        #{tradeTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

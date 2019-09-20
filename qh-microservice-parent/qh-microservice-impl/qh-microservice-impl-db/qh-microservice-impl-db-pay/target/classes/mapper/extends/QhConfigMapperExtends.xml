@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qh.db.dao.mapper.extend.QhConfigMapperExtends">
+    <resultMap id="BaseResultMap" type="com.qh.entity.QhConfig">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="hos_id" property="hosId" jdbcType="INTEGER"/>
+        <result column="hos_key" property="hosKey" jdbcType="VARCHAR"/>
+        <result column="hos_value" property="hosValue" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="mch_id" property="mchId" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, hos_id, hos_key, hos_value, content
+  </sql>
+
+    <select id="selectByqhConfig" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        	qc.hos_value
+        FROM
+            qh_config qc,
+            hos h
+        WHERE
+            h.id = qc.hos_id
+        AND
+            h.hos_name = #{hosName,jdbcType=VARCHAR}
+        and
+            hos_key = #{hosKey,jdbcType=VARCHAR}
+  </select>
+    <select id="selectByqhConfigByMuchId" resultMap="BaseResultMap" parameterType="java.lang.String">
+       SELECT hos_value FROM  qh_config where mch_id=#{mchId,jdbcType=VARCHAR}
+    </select>
+</mapper>

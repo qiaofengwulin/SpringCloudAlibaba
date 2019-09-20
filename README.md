@@ -1,0 +1,5 @@
+# SpringCloudAlibaba-
+SpringCloudAlibaba项目搭建
+项目注册中心Nacos采用高可用集群模式，且使用了Nacos配置中心
+项目如需启动需要自行搭建Nacos集群，并完善服务相对应的配置。
+如需运行环境可联系635273424@qq.com

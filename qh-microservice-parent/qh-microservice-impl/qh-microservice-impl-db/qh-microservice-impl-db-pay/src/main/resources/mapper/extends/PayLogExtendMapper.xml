@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qh.db.dao.mapper.extend.PayLogExtendMapper" >
+  <resultMap id="BaseResultMap" type="com.qh.entity.PayLog" >
+    <id column="trade_no" property="tradeNo" jdbcType="VARCHAR" />
+    <result column="pay_type" property="payType" jdbcType="VARCHAR" />
+    <result column="fee" property="fee" jdbcType="DECIMAL" />
+    <result column="pay_number" property="payNumber" jdbcType="VARCHAR" />
+    <result column="out_trade_no" property="outTradeNo" jdbcType="VARCHAR" />
+    <result column="out_trade_refund_no" property="outTradeRefundNo" jdbcType="VARCHAR" />
+    <result column="mch_id" property="mchId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="trade_time" property="tradeTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+  trade_no,
+	pay_type,
+	fee,
+	pay_number,
+	out_trade_no,
+	out_trade_refund_no,
+	mch_id,
+	date_format( create_time, '%Y-%m-%d %H:%i:%s' ) AS create_time,
+	date_format( trade_time, '%Y-%m-%d %H:%i:%s' ) AS trade_time
+  </sql>
+  <select id="queryPayLog" resultType="java.util.Map" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from qh_paylog
+    <where>
+       1=1
+      <if test="tradeNo != null" >
+        and trade_no=#{tradeNo,jdbcType=VARCHAR}
+      </if>
+      <if test="payType != null" >
+        and pay_type=#{payType,jdbcType=VARCHAR}
+      </if>
+
+      <if test="payNumber != null" >
+        and pay_number=#{payNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="outTradeNo != null" >
+        and out_trade_no=#{outTradeNo,jdbcType=VARCHAR}
+      </if>
+      <if test="outTradeRefundNo != null" >
+        and out_trade_refund_no=#{outTradeRefundNo,jdbcType=VARCHAR}
+      </if>
+      <if test="mchId != null" >
+        and mch_id=#{mchId,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+</mapper>
