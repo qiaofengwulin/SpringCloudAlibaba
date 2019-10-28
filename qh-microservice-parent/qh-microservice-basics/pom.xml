@@ -14,6 +14,7 @@
         <module>qh-microservice-basics-lcn-tm</module>
         <module>qh-microservice-basics-sso</module>
         <module>qh-microservice-basics-elk</module>
+        <module>qh-microservice-basics-rocketmq</module>
     </modules>
     <artifactId>qh-microservice-basics</artifactId>
 
