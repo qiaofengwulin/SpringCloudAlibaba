@@ -27,8 +27,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- Spring Settings -->
-        <spring-cloud.version>Finchley.SR2</spring-cloud.version>
-        <spring-cloud-alibaba.version>0.2.1.RELEASE</spring-cloud-alibaba.version>
+<!--        <spring-cloud.version>Finchley.SR2</spring-cloud.version>-->
+<!--        <spring-cloud-alibaba.version>0.2.1.RELEASE</spring-cloud-alibaba.version>-->
     </properties>
 
     <dependencyManagement>
@@ -80,7 +80,6 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
         <!-- Spring Cloud End -->
-
         <!-- 引入lombok插件-->
         <dependency>
             <groupId>org.projectlombok</groupId>
