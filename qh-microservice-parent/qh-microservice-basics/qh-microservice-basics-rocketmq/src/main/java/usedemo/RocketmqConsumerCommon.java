@@ -10,7 +10,4 @@ public abstract class RocketmqConsumerCommon implements RocketmqConsumer {
     protected String topicName ;
     //消息标签
     protected  String tags ;
-
-    //protected DefaultMQPullConsumer consumer;
-
 }

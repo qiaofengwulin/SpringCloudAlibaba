@@ -11,6 +11,10 @@
     <artifactId>qh-microservice-basics-rocketmq</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-stream-rocketmq</artifactId>
+        </dependency>
         <!-- 为了Endpoint 信息查看 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

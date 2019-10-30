@@ -12,13 +12,18 @@ import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
 public class RocketmqConsumerPush extends RocketmqConsumerCommon{
     //推
     private DefaultMQPushConsumer consumer;
-    public RocketmqConsumerPush(String consumerGroupName, String nameServerAddr, String topicName, String tags) {
-        this.consumerGroupName = consumerGroupName;
-        this.nameServerAddr = nameServerAddr;
-        this.topicName = topicName;
-        this.tags = tags;
+    public RocketmqConsumerPush(RocketMQBean rocketMQBean) {
+        this.consumerGroupName = rocketMQBean.getGroupName();
+        this.nameServerAddr = rocketMQBean.getNameServerAddr();
+        this.topicName = rocketMQBean.getTopic();
+        this.tags = rocketMQBean.getTag();
     }
 
+    /**
+     *
+     * @param messageModel 集群模式MessageModel.CLUSTERING ;广播模式 MessageModel.BROADCASTING
+     * @throws Exception
+     */
     public void initconsumer(MessageModel messageModel) throws Exception {
 
         //创建一个消息消费者，并设置一个消息消费者组

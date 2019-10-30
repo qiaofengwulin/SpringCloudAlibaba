@@ -40,9 +40,9 @@ public class RocketController {
             aBean.setName("ligang");
             rocketMQBean.setMessageExtBean(aBean);
             //启动一个生产者
-            RocketmqProducer producer = new RocketmqProducer(rocketMQBean.getGroupName(), rocketMQBean.getNameServerAddr(), rocketMQBean.getTopic(), rocketMQBean.getTag());
-            //生产消息
+            RocketmqProducer producer = new RocketmqProducer(rocketMQBean);
             producer.send(rocketMQBean);
+            //生产消息
         } catch (Exception e) {
             e.printStackTrace();
         }

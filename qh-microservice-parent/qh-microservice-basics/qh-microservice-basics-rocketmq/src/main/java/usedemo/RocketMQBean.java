@@ -5,15 +5,16 @@ package usedemo;
  * @date 2019/10/28 16:40
  */
 public class RocketMQBean {
+    //消息主题
     private String topic;
+    //消息标签
     private String tag;
+    //消息正文
     private Object messageExtBean;
+    //分组id
     private String GroupName;
+    //broker地址
     private String NameServerAddr;
-    private static RocketMQBean rocketMQBean = new RocketMQBean();
-    public static RocketMQBean getRocketMQBean(){
-        return rocketMQBean;
-    }
 
     public String getTopic() {
         return topic;

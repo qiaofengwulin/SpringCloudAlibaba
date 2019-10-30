@@ -40,15 +40,22 @@ public class RocketmqConsumerIinitializeEngine implements ApplicationContextAwar
         });
     }
 
+    /**
+     *
+     * @param bean
+     * @param messageModel 集群模式MessageModel.CLUSTERING ;广播模式 MessageModel.BROADCASTING
+     * @param isToPull 是否开启拉取模式，true开启Pull。 false为 Push推送模式
+     */
     public void start(RocketMQBean bean, MessageModel messageModel, Boolean isToPull){
         try {
+
             if(isToPull){
                 //启动一个主动拉取模式的消费者
-                RocketmqConsumer rocketmqConsumerClustering = new RocketmqConsumerPull(bean.getGroupName(),bean.getNameServerAddr(),bean.getTopic(),bean.getTag());
+                RocketmqConsumer rocketmqConsumerClustering = new RocketmqConsumerPull(bean);
                 rocketmqConsumerClustering.initconsumer(messageModel);
             }else {
                 //启动一个推送模式的消费者
-                RocketmqConsumer rocketmqConsumerClustering = new RocketmqConsumerPush(bean.getGroupName(),bean.getNameServerAddr(),bean.getTopic(),bean.getTag());
+                RocketmqConsumer rocketmqConsumerClustering = new RocketmqConsumerPush(bean);
                 rocketmqConsumerClustering.initconsumer(messageModel);
             }
         } catch (Exception e) {

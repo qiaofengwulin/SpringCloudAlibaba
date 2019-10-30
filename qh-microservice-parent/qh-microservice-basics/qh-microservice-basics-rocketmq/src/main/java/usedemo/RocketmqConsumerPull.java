@@ -26,11 +26,11 @@ public class RocketmqConsumerPull extends RocketmqConsumerCommon {
     //拉
     private DefaultMQPullConsumer consumer;
     private static final Map<MessageQueue, Long> offsetTable = new HashMap<MessageQueue, Long>();
-    public RocketmqConsumerPull(String consumerGroupName, String nameServerAddr, String topicName, String tags) {
-        this.consumerGroupName = consumerGroupName;
-        this.nameServerAddr = nameServerAddr;
-        this.topicName = topicName;
-        this.tags = tags;
+    public RocketmqConsumerPull(RocketMQBean rocketMQBean) {
+        this.consumerGroupName = rocketMQBean.getGroupName();
+        this.nameServerAddr = rocketMQBean.getNameServerAddr();
+        this.topicName = rocketMQBean.getTopic();
+        this.tags = rocketMQBean.getTag();
     }
     @Override
     public void initconsumer(MessageModel messageModel) throws Exception {

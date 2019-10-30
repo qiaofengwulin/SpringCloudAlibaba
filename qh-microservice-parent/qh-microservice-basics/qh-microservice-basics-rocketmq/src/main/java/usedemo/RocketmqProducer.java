@@ -25,11 +25,11 @@ public class RocketmqProducer {
     private SendResult sendResult;
     private DefaultMQProducer producer;
 
-    public RocketmqProducer(String producerGroupName, String nameServerAddr, String topic, String tags) {
-        this.producerGroupName=producerGroupName;
-        this.nameServerAddr=nameServerAddr;
-        this.topic=topic;
-        this.tags=tags;
+    public RocketmqProducer(RocketMQBean rocketMQBean)throws Exception {
+        this.producerGroupName=rocketMQBean.getGroupName();
+        this.nameServerAddr=rocketMQBean.getNameServerAddr();
+        this.topic=rocketMQBean.getTopic();
+        this.tags=rocketMQBean.getTag();
     }
 
     /**
@@ -40,7 +40,7 @@ public class RocketmqProducer {
      * @throws InterruptedException
      * @throws MQBrokerException
      */
-    public void send(Object message) throws MQClientException, RemotingException, InterruptedException, MQBrokerException {
+    public boolean send(RocketMQBean message) throws MQClientException, RemotingException, InterruptedException, MQBrokerException {
         producer = new DefaultMQProducer(producerGroupName);
         producer.setNamesrvAddr(nameServerAddr);
         //决定是否使用VIP通道，即高优先级
@@ -54,7 +54,9 @@ public class RocketmqProducer {
         sendResult = producer.send(msg);
         if(sendResult.getSendStatus().toString().equals("SEND_OK")){
             System.out.println("消息发送成功----------------------------");
+            return true;
         }else {
+            return false;
             /**
              *
              *
