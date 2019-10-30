@@ -1,5 +1,6 @@
 package usedemo;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
@@ -21,8 +22,8 @@ public class RocketmqProducer {
     private  String topic;
     //消息标签
     private  String tags;
-    private  SendResult sendResult;
-    private  DefaultMQProducer producer;
+    private SendResult sendResult;
+    private DefaultMQProducer producer;
 
     public RocketmqProducer(String producerGroupName, String nameServerAddr, String topic, String tags) {
         this.producerGroupName=producerGroupName;
@@ -44,13 +45,15 @@ public class RocketmqProducer {
         producer.setNamesrvAddr(nameServerAddr);
         //决定是否使用VIP通道，即高优先级
         producer.setVipChannelEnabled(false);
+        System.out.println("生产者启动----------------------------------------------");
         producer.start();
         //设置消息参数
-        Message msg = new Message(topic, tags, message.toString().getBytes());
+        Message msg = new Message(topic, tags, JSON.toJSONString(message).getBytes());
+        System.out.println("开始生产消息------------------>>>>"+msg.toString());
         //发送消息
         sendResult = producer.send(msg);
         if(sendResult.getSendStatus().toString().equals("SEND_OK")){
-            System.out.println("消息发送成功");
+            System.out.println("消息发送成功----------------------------");
         }else {
             /**
              *
