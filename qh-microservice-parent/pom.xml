@@ -18,7 +18,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.7.RELEASE</version>
+        <version>2.1.6.RELEASE</version>
         <relativePath/>
         <!-- lookup parent from repository -->
     </parent>
@@ -26,9 +26,6 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <!-- Spring Settings -->
-<!--        <spring-cloud.version>Finchley.SR2</spring-cloud.version>-->
-<!--        <spring-cloud-alibaba.version>0.2.1.RELEASE</spring-cloud-alibaba.version>-->
     </properties>
 
     <dependencyManagement>
@@ -99,21 +96,5 @@
             <version>5.0.2.RELEASE</version>
         </dependency>
         <!--TXLCN End -->
-
-        <!--ELK Start -->
-        <!--logstash-->
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-            <version>4.11</version>
-        </dependency>
-        <!--kafka-->
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka-clients</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <!--ELK End -->
-
     </dependencies>
 </project>

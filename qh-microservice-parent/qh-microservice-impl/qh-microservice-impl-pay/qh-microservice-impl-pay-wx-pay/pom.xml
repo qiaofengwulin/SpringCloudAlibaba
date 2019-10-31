@@ -13,7 +13,6 @@
     <artifactId>qh-microservice-impl-pay-wx-pay</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>com.qh</groupId>
             <artifactId>qh-microservice-api-pay-wx-pay</artifactId>
@@ -32,6 +31,11 @@
         <dependency>
             <groupId>com.qh</groupId>
             <artifactId>qh-microservice-basics-elk</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.qh</groupId>
+            <artifactId>qh-microservice-basics-rocketmq</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
