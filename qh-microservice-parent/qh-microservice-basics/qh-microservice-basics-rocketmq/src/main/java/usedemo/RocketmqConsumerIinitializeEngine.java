@@ -25,13 +25,12 @@ public class RocketmqConsumerIinitializeEngine implements ApplicationContextAwar
     }
 
 
-
     public void handle(RocketMQBean bean){
         handler.put(bean.getTopic(),bean);
-        System.out.println("handlerMap存储消息了"+handler.toString());
+        System.out.println("handlerMap存储消息--------"+handler.toString());
         //获取spring容器的上下文
         containerContext = applicationContext.getBeansOfType(MQHandler.class);
-
+        System.out.println("containerContext-------------"+containerContext);
         containerContext.forEach((k, v) -> {
             if (k.equals(bean.getTopic())) {
                 v.handle(handler.get(bean.getTopic()));
@@ -39,24 +38,20 @@ public class RocketmqConsumerIinitializeEngine implements ApplicationContextAwar
             }
         });
     }
-
     /**
      *
      * @param bean
      * @param messageModel 集群模式MessageModel.CLUSTERING ;广播模式 MessageModel.BROADCASTING
      * @param isToPull 是否开启拉取模式，true开启Pull。 false为 Push推送模式
      */
-    public void start(RocketMQBean bean, MessageModel messageModel, Boolean isToPull){
+    public void start(RocketMQBean bean, MessageModel messageModel,boolean isToPull){
         try {
-
             if(isToPull){
                 //启动一个主动拉取模式的消费者
-                RocketmqConsumer rocketmqConsumerClustering = new RocketmqConsumerPull(bean);
-                rocketmqConsumerClustering.initconsumer(messageModel);
+                new RocketmqConsumerPull(bean,messageModel);
             }else {
                 //启动一个推送模式的消费者
-                RocketmqConsumer rocketmqConsumerClustering = new RocketmqConsumerPush(bean);
-                rocketmqConsumerClustering.initconsumer(messageModel);
+                new RocketmqConsumerPush(bean,messageModel);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,6 +60,7 @@ public class RocketmqConsumerIinitializeEngine implements ApplicationContextAwar
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        System.out.println("applicationContext----------------"+applicationContext);
         this.applicationContext = applicationContext;
     }
 }

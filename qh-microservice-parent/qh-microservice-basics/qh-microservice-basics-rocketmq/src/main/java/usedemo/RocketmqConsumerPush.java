@@ -1,8 +1,17 @@
 package usedemo;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
+import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
+import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
+import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
+
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 /**
  * @Author qiaozhonghuai
@@ -12,19 +21,15 @@ import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
 public class RocketmqConsumerPush extends RocketmqConsumerCommon{
     //推
     private DefaultMQPushConsumer consumer;
-    public RocketmqConsumerPush(RocketMQBean rocketMQBean) {
+    public RocketmqConsumerPush(RocketMQBean rocketMQBean,MessageModel messageModel)throws Exception {
         this.consumerGroupName = rocketMQBean.getGroupName();
         this.nameServerAddr = rocketMQBean.getNameServerAddr();
         this.topicName = rocketMQBean.getTopic();
         this.tags = rocketMQBean.getTag();
+        initconsumer(messageModel);
     }
 
-    /**
-     *
-     * @param messageModel 集群模式MessageModel.CLUSTERING ;广播模式 MessageModel.BROADCASTING
-     * @throws Exception
-     */
-    public void initconsumer(MessageModel messageModel) throws Exception {
+    private void initconsumer(MessageModel messageModel) throws Exception {
 
         //创建一个消息消费者，并设置一个消息消费者组
         consumer = new DefaultMQPushConsumer(consumerGroupName);
@@ -50,7 +55,36 @@ public class RocketmqConsumerPush extends RocketmqConsumerCommon{
          */
         consumer.setMessageModel(messageModel);
         //注册消息监听器
-        consumer.registerMessageListener(new MessageListener());
+        consumer.registerMessageListener(new MessageListenerConcurrently(){
+            @Override
+            //消息监听器在接收到消息后执行具体的处理逻辑。
+            public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
+                if (list != null) {
+                    for (MessageExt ext : list) {
+                        try {
+                            /**
+                             * 在消费消消息时候，需要考虑到消息的幂等性。
+                             */
+                            String message = new String(ext.getBody(), "UTF-8");
+                            System.out.println("消息监听器监听到消息------------->>>"+message);
+                            JSONObject json = JSON.parseObject(message);
+                            String topic = json.getString("topic");
+                            String tag = json.getString("tag");
+                            RocketMQBean rocketMQBean =  new RocketMQBean();
+                            rocketMQBean.setMessageExtBean(message);
+                            rocketMQBean.setTag(tag);
+                            rocketMQBean.setTopic(topic);
+                            RocketmqConsumerIinitializeEngine.getRocketmqConsumerIinitializeEngine().handle(rocketMQBean);
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                            return ConsumeConcurrentlyStatus.RECONSUME_LATER;
+                        }
+                    }
+                }
+                // 标记该消息已经被成功消费
+                return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+            }
+        });
         // 消费者对象在使用之前必须要调用 start 初始化
         consumer.start();
     }

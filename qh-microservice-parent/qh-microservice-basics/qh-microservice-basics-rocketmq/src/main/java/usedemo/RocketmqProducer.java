@@ -13,7 +13,6 @@ import org.apache.rocketmq.remoting.exception.RemotingException;
  * 每个生产组只允许一个生产实例
  */
 public class RocketmqProducer {
-
     //消息生产组
     private  String producerGroupName ;
     //nameServer地址
@@ -22,14 +21,20 @@ public class RocketmqProducer {
     private  String topic;
     //消息标签
     private  String tags;
-    private SendResult sendResult;
-    private DefaultMQProducer producer;
+    private  SendResult sendResult;
+    private  DefaultMQProducer producer;
 
     public RocketmqProducer(RocketMQBean rocketMQBean)throws Exception {
         this.producerGroupName=rocketMQBean.getGroupName();
         this.nameServerAddr=rocketMQBean.getNameServerAddr();
         this.topic=rocketMQBean.getTopic();
         this.tags=rocketMQBean.getTag();
+        producer = new DefaultMQProducer(producerGroupName);
+        producer.setNamesrvAddr(nameServerAddr);
+        //决定是否使用VIP通道，即高优先级
+        producer.setVipChannelEnabled(false);
+        producer.start();
+        System.out.println("生产者启动----------------------------------------------");
     }
 
     /**
@@ -40,13 +45,7 @@ public class RocketmqProducer {
      * @throws InterruptedException
      * @throws MQBrokerException
      */
-    public boolean send(RocketMQBean message) throws MQClientException, RemotingException, InterruptedException, MQBrokerException {
-        producer = new DefaultMQProducer(producerGroupName);
-        producer.setNamesrvAddr(nameServerAddr);
-        //决定是否使用VIP通道，即高优先级
-        producer.setVipChannelEnabled(false);
-        System.out.println("生产者启动----------------------------------------------");
-        producer.start();
+    public boolean send(RocketMQBean message) throws Exception {
         //设置消息参数
         Message msg = new Message(topic, tags, JSON.toJSONString(message).getBytes());
         System.out.println("开始生产消息------------------>>>>"+msg.toString());
@@ -61,9 +60,16 @@ public class RocketmqProducer {
              *
              *
              * 消息发送失败Producer会重试，最多重试三次如果发送失败则会转到下一个broker，总耗时不超过10s
-               但并不保证一定成功，对于重要消息在使用消息队列是要考虑，消失丢失的情况，所以重要消息需要在消息发送不成功的时候，建议，
-               先将消息存储到DB由后台线程定时重试保证消息一定到达broker
+             但并不保证一定成功，对于重要消息在使用消息队列是要考虑，消失丢失的情况，所以重要消息需要在消息发送不成功的时候，建议，
+             先将消息存储到DB由后台线程定时重试保证消息一定到达broker
              */
         }
+    }
+
+    public void destroy(){
+        producer.shutdown();
+    }
+    public DefaultMQProducer getProducer() {
+        return producer;
     }
 }
