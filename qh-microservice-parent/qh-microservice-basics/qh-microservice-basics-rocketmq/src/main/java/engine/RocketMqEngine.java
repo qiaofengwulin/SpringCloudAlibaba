@@ -87,6 +87,11 @@ public class RocketMqEngine {
         }
     }
 
+    /**
+     * 启动消息消费者
+     * @param config
+     * @return
+     */
     public boolean startConsumer(RocketMqConsumerConfig config){
         if(null == config){
             return false;

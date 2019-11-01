@@ -1,5 +1,5 @@
 public class MyTestBean {
-    private String name ="张三";
+    private String name ="MyTestBean张三";
     private Integer age = 18;
 
     public String getName() {

@@ -13,7 +13,7 @@ public class TestProducer {
         config.setGroup("Test-MQ");
         config.setAddress("192.168.0.125:9876");
         RocketMqEngine.engine().startProducer(config);
-
+        int i = 0;
         while (true) {
             RocketMqBean bean = new RocketMqBean();
             bean.setTopic("Topic");
@@ -21,7 +21,10 @@ public class TestProducer {
             bean.setBean(new MyTestBean());
 
             RocketMqEngine.engine().publish(config.getGroup(), bean);
-
+//            i++;
+//            if(i==10){
+//                return;
+//            }
             try {
                 Thread.sleep(1000);
             } catch (Exception e) {
