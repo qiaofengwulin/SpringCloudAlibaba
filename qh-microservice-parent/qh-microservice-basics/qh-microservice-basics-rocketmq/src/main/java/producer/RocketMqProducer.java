@@ -80,17 +80,7 @@ public class RocketMqProducer {
             Message msg = new Message(message.getTopic(), message.getTag(), JSON.toJSONString(message).getBytes());
             logger.info("[MQ] 开始生产消息------------------>>>>"+msg.toString());
             SendResult result = producer.send(msg);
-            if(null == result){
-                logger.info("[MQ] 消息发送失败，NULL result！");
-
-                return false;
-            }
-            SendStatus status = result.getSendStatus();
-            if(null == status){
-                logger.info("[MQ] 消息发送失败，NULL status！");
-                return false;
-            }
-            if(status == SendStatus.SEND_OK){
+            if(result.getSendStatus() == SendStatus.SEND_OK){
                 logger.info("[MQ] 消息发送成功----------------------------");
                 return true;
             }

@@ -48,16 +48,17 @@ public class RocketMqEngine {
     }
 
     //发布任务
-    public void publish(String group, RocketMqBean bean){
+    public boolean publish(String group, RocketMqBean bean){
         try {
             RocketMqProducer producer = _producers.get(group);
             if(producer != null) {
-                producer.send(bean);
+               return producer.send(bean);
             }
         }
         catch (Exception e){
             logger.warn("[MQ] Send Message fail", e);
         }
+        return false;
     }
     /**
      * 启动消息生产者
