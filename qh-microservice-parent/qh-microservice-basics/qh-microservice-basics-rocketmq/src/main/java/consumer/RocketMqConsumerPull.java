@@ -48,7 +48,7 @@ public class RocketMqConsumerPull {
              * 指定 NameServer 地址
              */
             consumer.setNamesrvAddr(config.getAddress());
-
+            consumer.setVipChannelEnabled(false);
             /**
              * 开起消费者
              */

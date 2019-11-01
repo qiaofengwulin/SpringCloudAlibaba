@@ -40,7 +40,7 @@ public class RocketMqConsumerPush{
              * 设置Consumer第一次启动是从队列头部开始消费还是队列尾部开始消费
              */
             consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
-
+            consumer.setVipChannelEnabled(false);
             /**
              * 订阅指定 Topic 下的所有消息
              * 订阅topic，可以对指定消息进行过滤，例如："TopicTest","tagl||tag2||tag3",*或null表示topic所有消息
